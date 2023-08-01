@@ -40,7 +40,7 @@ public partial class TicketDbContext : DbContext
             entity.ToTable("Event");
 
             entity.Property(e => e.EventId)
-                .ValueGeneratedNever()
+                
                 .HasColumnName("event_id");
             entity.Property(e => e.EndDate)
                 .HasPrecision(6)

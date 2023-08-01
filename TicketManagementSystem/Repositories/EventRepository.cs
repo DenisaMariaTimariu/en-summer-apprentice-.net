@@ -16,12 +16,12 @@ namespace TMS.Api.Repositories
             _dbContext = new TicketDbContext();
         }
 
-       /* public async Task<Event> Add(Event @event)
+        public async Task<Event> Add(Event @event)
         {
             _dbContext.Events.Add(@event);
             await _dbContext.SaveChangesAsync();
             return @event;
-        }*/
+        }
 
         public Event Delete(Event @event)
         {

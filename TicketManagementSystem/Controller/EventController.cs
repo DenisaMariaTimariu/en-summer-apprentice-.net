@@ -88,7 +88,7 @@ namespace TMS.Api.Controllers
             return NoContent();
         }
 
-     /*   [HttpPost("/Event")]
+       [HttpPost("/Event")]
 
         public async Task<ActionResult> CreateEvent(EventAddDto eventAddDto)
         {
@@ -97,7 +97,7 @@ namespace TMS.Api.Controllers
 
             return Ok(eventEntity);
 
-        }*/
+        }
 
     }
 }
