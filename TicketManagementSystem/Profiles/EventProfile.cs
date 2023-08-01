@@ -22,6 +22,8 @@ namespace TicketManagementSystem.Profiles
               .ForMember(dest => dest.EventType, opt => opt.Ignore());
 
             CreateMap<Event, EventPatchDto>().ReverseMap();
+
+            CreateMap<Event, EventAddDto>().ReverseMap();
         }
     }
 }

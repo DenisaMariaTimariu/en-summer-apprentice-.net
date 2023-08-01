@@ -1,5 +1,6 @@
 using NLog.Web;
 using TicketManagementSystem.Repositories;
+using TMS.Api.Middleware;
 using TMS.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

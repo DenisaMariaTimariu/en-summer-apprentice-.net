@@ -13,8 +13,8 @@ namespace TicketManagementSystem.Controller
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderRepository orderRepository, IMapper mapper) { 
-        
+        public OrderController(IOrderRepository orderRepository, IMapper mapper) {
+
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
@@ -24,14 +24,14 @@ namespace TicketManagementSystem.Controller
         {
             var order = _orderRepository.GetAll().AsQueryable();
 
-            
+
             var orderDto = _mapper.ProjectTo<OrderDto>(order);
-           
+
 
             return Ok(orderDto);
         }
 
-      [HttpGet("id")]
+        [HttpGet("id")]
         public async Task<ActionResult<OrderDto>> getOrdersById(int id) {
 
             var @order = await _orderRepository.GetById(id);
@@ -49,9 +49,9 @@ namespace TicketManagementSystem.Controller
 
 
         [HttpPatch]
-        public async Task<ActionResult<OrderPatchDto>>Patch(OrderPatchDto orderPatch)
+        public async Task<ActionResult<OrderPatchDto>> Patch(OrderPatchDto orderPatch)
         {
-            var orderEntity =await _orderRepository.GetById(orderPatch.OrderId);
+            var orderEntity = await _orderRepository.GetById(orderPatch.OrderId);
 
             if (orderEntity == null)
             {
@@ -66,14 +66,22 @@ namespace TicketManagementSystem.Controller
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
-            var eventEntity =await _orderRepository.GetById(id);
+            var orderEntity = await _orderRepository.GetById(id);
 
-            if (eventEntity == null)
+            if (orderEntity == null)
             {
                 return NotFound();
             }
-            _orderRepository.Delete(eventEntity);
+            _orderRepository.Delete(orderEntity);
             return NoContent();
         }
+
+       /* [HttpPost("/CreateOrder")]
+
+         public async Task<ActionResult> CreateOrder()
+         {
+            var orderEntity = await _orderRepository.Add();
+         }*/
+
     }
 }

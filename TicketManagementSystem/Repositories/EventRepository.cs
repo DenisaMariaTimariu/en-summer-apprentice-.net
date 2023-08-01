@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TicketManagementSystem.Exceptions;
 using TicketManagementSystem.Models;
 //using TicketManagementSystem.Repositories;
 //using TMS.Api.Models;
@@ -15,10 +16,12 @@ namespace TMS.Api.Repositories
             _dbContext = new TicketDbContext();
         }
 
-        public int Add(Event @event)
+       /* public async Task<Event> Add(Event @event)
         {
-            throw new NotImplementedException();
-        }
+            _dbContext.Events.Add(@event);
+            await _dbContext.SaveChangesAsync();
+            return @event;
+        }*/
 
         public Event Delete(Event @event)
         {
@@ -39,7 +42,7 @@ namespace TMS.Api.Repositories
             var @event =await _dbContext.Events.Include(e => e.Location).Include(e => e.EventType).Where(e => e.EventId == id).FirstOrDefaultAsync();
             if(@event == null)
             {
-                throw new Exception("The object was not found!");
+                throw new EntityNotFoundException(id, nameof(Event));
             }
 
             return @event;
@@ -47,8 +50,6 @@ namespace TMS.Api.Repositories
 
         public void Update(Event @event)
         {
-            //var eventEntity = GetById(@event.EventId);
-            //eventEntity = @event;
             _dbContext.Entry(@event).State=EntityState.Modified;
            _dbContext.SaveChanges();
         }

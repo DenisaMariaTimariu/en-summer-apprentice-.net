@@ -9,7 +9,7 @@ namespace TMS.Api.Repositories
 
         Task<Event> GetById(int id);
 
-        int Add(Event @event);
+      //  Task<Event> Add(Event @event);
 
         void Update(Event @event);
 

@@ -10,7 +10,7 @@
 
         public EntityNotFoundException(string errorMessage, Exception innerException) : base(errorMessage, innerException) { }
 
-       // public EntityNotFoundException(int entityId, string entityName) : base(FormattableString.Invariant($" '(entityName)' with id") { }
+        public EntityNotFoundException(int entityId, string entityName) : base(FormattableString.Invariant($"'{entityName}' with id '{entityId}' was not found.")) { }
 
     }
 }

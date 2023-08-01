@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using TicketManagementSystem.Models;
 using TicketManagementSystem.Models.DTO;
 //using TMS.Api.Models;
 //using TMS.Api.Models.Dto;
@@ -30,7 +31,7 @@ namespace TMS.Api.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet("/AllOrders")]
         public ActionResult<List<EventDto>> GetAll()
         {
             var events = _eventRepository.GetAll().AsQueryable();
@@ -41,52 +42,40 @@ namespace TMS.Api.Controllers
         }
 
 
-        [HttpGet("id")]
+        [HttpGet("/OrderById")]
         public async Task<ActionResult<EventDto>> GetById(int id)
         {
-            try
-            {
 
-                var @event = await _eventRepository.GetById(id);
+            var @event = await _eventRepository.GetById(id);
 
-                if (@event == null)
-                {
-                    return NotFound();
-                }
+         
+            var eventDto = _mapper.Map<EventDto>(@event);
 
+            return Ok(eventDto);
 
-                var eventDto = _mapper.Map<EventDto>(@event);
-            
-                return Ok(eventDto);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                return BadRequest(ex.Message);
-            }
         }
 
 
-       [HttpPatch]
+        [HttpPatch]
         public async Task<ActionResult<EventPatchDto>> Patch(EventPatchDto eventPatch)
         {
             if (eventPatch == null)
             {
                 throw new ArgumentNullException(nameof(eventPatch));
             }
-          var eventEntity =  await _eventRepository.GetById(eventPatch.EventId);
+            var eventEntity = await _eventRepository.GetById(eventPatch.EventId);
 
             if (eventEntity == null)
             {
                 return NotFound();
             }
-            
+
             _mapper.Map(eventPatch, eventEntity);
             _eventRepository.Update(eventEntity);
             return Ok(eventEntity);
         }
 
-        [HttpDelete]
+        [HttpDelete("/ById")]
         public async Task<ActionResult> Delete(int id)
         {
             var eventEntity = await _eventRepository.GetById(id);
@@ -98,5 +87,17 @@ namespace TMS.Api.Controllers
             _eventRepository.Delete(eventEntity);
             return NoContent();
         }
+
+     /*   [HttpPost("/Event")]
+
+        public async Task<ActionResult> CreateEvent(EventAddDto eventAddDto)
+        {
+            Event newEvent = _mapper.Map<Event>(eventAddDto);
+            var eventEntity = await _eventRepository.Add(newEvent);
+
+            return Ok(eventEntity);
+
+        }*/
+
     }
 }
